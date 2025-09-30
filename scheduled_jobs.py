@@ -1,6 +1,7 @@
 from data.database import save_order, get_all_orders
 from products import create_product_download
 from apscheduler.schedulers.background import BackgroundScheduler
+from datetime import timezone
 import requests
 
 
@@ -26,7 +27,7 @@ def process_orders(app):
         payload = {
             "product": order.product,
             "customer": order.customer,
-            "date": order.date_placed.isoformat(),
+            "date": order.date_placed.astimezone(timezone.utc).isoformat(),
         }
 
         app.logger.info(f"playload {payload}")
